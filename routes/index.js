@@ -5,6 +5,7 @@ var mongojs = require('mongojs');
 var db = mongojs('todoApp', ['tasks']);
 
 router.get('/getAllTasks', function (req, res) {
+  console.log('get request');
   db.tasks.find(function (err, tasks) {
     res.json(tasks);
   });
