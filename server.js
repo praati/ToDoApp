@@ -42,8 +42,14 @@ app.put('/tasks/:id', function(req,res){
         query: {_id: db.ObjectId(item._id)},
         update: {$set: {status: item.status}},
         new: true
-    }, function (err, todo) {
-       res.json(todo);
+    }, function (err, doc) {
+       res.json(doc);
+    });
+});
+
+app.delete('/tasks/:id', function (req, res) {
+    console.log(req.params.id);
+    db.tasks.remove({_id: db.ObjectId(req.params.id)}, function (err, doc) {
     });
 });
 var port = 4000;

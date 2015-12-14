@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title></title>
+    <title>ToDoApp</title>
     <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.3.14/angular.min.js"></script>
 </head>
@@ -25,18 +25,18 @@
             </form>
         </div>
         <div class="col-md-8">
-            <table class="table table-bordered">
+            <table class="table">
                 <thead>
-                <th></th>
                 <th>Status</th>
                 <th>Task</th>
                 <th>Due Date</th>
+                <th></th>
+
                 </thead>
+
                 <tbody>
                 <tr ng-repeat="t in tasks">
-                    <td>
-                        <span hidden>{{t._id}}</span>
-                    </td>
+
                     <td>
                         <input type="checkbox" ng-model="t.status" ng-click="updateTask(t)">
                     </td>
@@ -44,8 +44,13 @@
                         {{t.task}}
                     </td>
                     <td>
-                        {{t.dueDate}}
+                        {{t.dueDate |date :'MMM d, yyyy'}}
                     </td>
+                    <td>
+                        <button type="button" class="btn btn-danger" ng-click="delete(t)">Delete</button>
+                        <span hidden>{{t._id}}</span>
+                    </td>
+
                 </tr>
                 </tbody>
             </table>
@@ -71,6 +76,12 @@
             $http.put('/tasks/' + item._id, item).success(function(res){
                 refresh();
             });
+        };
+
+        $scope.delete = function (item) {
+            var index = $scope.tasks.indexOf(item);
+            $http.delete('/tasks' +'/' + item._id);
+            $scope.tasks.splice(index, 1);
         };
     })
 </script>
